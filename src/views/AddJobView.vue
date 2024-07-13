@@ -2,7 +2,6 @@
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
-// import {useToast} from 'vue-toastification'
 const router = useRouter();
 
 const form = reactive({
@@ -19,7 +18,6 @@ const form = reactive({
   },
 });
 
-// const toast = useToast();
 
 const handleSubmit = async () => {
   const newJob = {
@@ -38,10 +36,8 @@ const handleSubmit = async () => {
 
   try {
     const response = await axios.post('http://localhost:7000/jobs', newJob);
-    // toast.success('Job Added successfully')
     router.push(`/jobs/${response.data.id}`);
   } catch (error) {
-    // toast.error('Job Was Not Added')
     console.log("Error adding job", error);
   }
 };

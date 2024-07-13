@@ -2,7 +2,6 @@
 import axios from 'axios';
 import { useRouter ,useRoute } from 'vue-router';
 import { onMounted, reactive } from 'vue';
-// import {useToast} from 'vue-toastification'
 
 const router = useRouter();
 const route = useRoute();
@@ -27,7 +26,6 @@ const state = reactive({
   job: {},
   isLoading: true,
 });
-// const toast = useToast();
 
 const handleSubmit = async () => {
   const updatedJob = {

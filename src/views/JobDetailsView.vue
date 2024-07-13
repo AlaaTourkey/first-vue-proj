@@ -31,12 +31,10 @@ const deleteJob = async () => {
     const confirm = window.confirm('Are you sure you want to delete this job?');
     if (confirm) {
       await axios.delete(`http://localhost:7000/jobs/${jobId}`);
-      // toast.success('Job Deleted Successfully');
       router.push('/jobs');
     }
   } catch (error) {
     console.error('Error deleting job', error);
-    // toast.error('Job Not Deleted');
   }
 };
 
