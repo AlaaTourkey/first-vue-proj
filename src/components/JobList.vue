@@ -1,19 +1,33 @@
 <script setup>
-import jobData from './jobs.json'
-import JobDetails from './JobDetails.vue'
-import { ref, defineProps } from 'vue'
+import JobDetails from './JobDetails.vue';
+import { RouterLink } from 'vue-router';
+import { reactive, defineProps, onMounted } from 'vue';
+import axios from 'axios';
 
-defineProps({
+const props = defineProps({
   limit: Number,
-  showButton:{
-    type:Boolean,
+  showButton: {
+    type: Boolean,
     default: false,
+  },
+});
+
+const state = reactive({
+  jobs: [],
+  isLoading: true,
+});
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://localhost:7000/jobs');
+    state.jobs = response.data;
+    console.log(state.jobs);
+  } catch (error) {
+    console.log("error fetching jobs");
+  } finally {
+    state.isLoading = false;
   }
-})
-
-
-const jobs = ref(jobData)
-console.log(jobs);
+});
 </script>
 
 <template>
@@ -22,16 +36,23 @@ console.log(jobs);
       <h2 class="text-3xl font-bold text-green-500 mb-6 text-center">
         Browse Jobs
       </h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <JobDetails v-for="job in jobs.slice(0, limit || jobs.length)" :key="job.id" :job="job" />
+      <!-- loading div -->
+      <div v-if="state.isLoading" class="">
+        <div class="loader"></div>
+      </div>
+      <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <JobDetails v-for="job in state.jobs.slice(0, props.limit || state.jobs.length)" :key="job.id" :job="job" />
       </div>
     </div>
   </section>
 
-  <section v-if="showButton" class="m-auto max-w-lg my-10 px-6">
-    <a href="/jobs" class="block bg-black text-white text-center py-4 px-6 rounded-xl hover:bg-gray-700">View All
-      Jobs</a>
+  <section v-if="props.showButton" class="m-auto max-w-lg my-10 px-6">
+    <RouterLink to="/jobs" class="block bg-black text-white text-center py-4 px-6 rounded-xl hover:bg-gray-700">
+      View All Jobs
+    </RouterLink>
   </section>
 </template>
 
-<style></style>
+<style scoped>
+/* Add any scoped styles here if needed */
+</style>

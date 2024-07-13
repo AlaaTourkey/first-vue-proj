@@ -1,18 +1,12 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue';
-import Home from '@/components/Home.vue';
-import HomeCard from '@/components/HomeCard.vue';
-import JobList from '@/components/JobList.vue';
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
 
   <Navbar />
-  <Home title="test props" subTitle="test subtitle"/>
-  <HomeCard/>
-  <JobList :limit="3" :showButton="true"/>
+  <RouterView/>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
